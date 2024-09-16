@@ -57,7 +57,9 @@ MarkupSafe==2.1.5
 mdurl==0.1.2
 modal==0.64.110
 multidict==6.1.0
+numpy==2.1.1
 packaging==24.1
+pandas==2.2.2
 protobuf==4.25.4
 pydantic==2.9.1
 pydantic_core==2.23.3
@@ -86,6 +88,7 @@ typer==0.12.5
 types-certifi==2021.10.8.3
 types-toml==0.10.8.20240310
 typing_extensions==4.12.2
+tzdata==2024.1
 universal_pathlib==0.2.5
 urllib3==2.2.3
 uvicorn==0.30.6
