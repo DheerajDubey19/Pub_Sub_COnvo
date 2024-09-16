@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 import logging
 import json
+from typing import Dict, List, Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -8,9 +9,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-
 @app.post("/subscribe/")
-async def subscribe_message(request: Request):
+async def subscribe_message(request: Request) -> Dict[str, Any]:
     body = await request.json()
     data = body.get("data")
     if data:
@@ -20,8 +20,7 @@ async def subscribe_message(request: Request):
             message = data_dict.get("message")
             topic = body.get("topic")
             if message is None or topic is None:
-                logger.warning(
-                    "Received message with missing topic or message")
+                logger.warning("Received message with missing topic or message")
             else:
                 logger.info(f"Received message on {topic} topic: {message}")
                 if topic == "create-user":
@@ -32,11 +31,12 @@ async def subscribe_message(request: Request):
             logger.error("Failed to decode JSON data")
     else:
         logger.warning("Received message with missing data field")
-    return {} 
-
+    
+    return {}
 
 @app.get("/dapr/subscribe")
-async def dapr_subscribe():
+async def dapr_subscribe() -> List[Dict[str, str]]:
+
     return [
         {"pubsubname": "pubsub", "topic": "create-user", "route": "/subscribe/"},
         {"pubsubname": "pubsub", "topic": "get-users", "route": "/subscribe/"}

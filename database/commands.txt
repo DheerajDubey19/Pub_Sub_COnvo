@@ -1,0 +1,18 @@
+# Dapr Command
+
+dapr run --app-id subscriber --app-port 8001 --dapr-http-port 3501 -- uvicorn subscriber.main:app --host 0.0.0.0 --port 8001
+
+dapr run --app-id publisher --app-port 8000 --dapr-http-port 3500 -- uvicorn publisher.main:app --host 0.0.0.0 --port 8000
+
+curl -X POST "http://localhost:8000/insert_user" -H "Content-Type: application/json" -d '{"name": "Harsh", "price": 27,"address": "Gurugram"'}
+
+curl -X POST "http://localhost:8000/process_user" -H "Content-Type: application/json"
+
+
+
+
+#for dagster:
+
+dagster dev -f path/filename
+
+
