@@ -37,7 +37,7 @@ def update_user(name, updated_data):
         values = list(updated_data.values()) + [name]
         query = f"UPDATE users SET {set_clause} WHERE name = ?"
         logger.debug(f"Executing query: {query} with values: {values}")
-        conn.execute(query, values)
+        conn.execute(query, tuple(values))
         conn.commit()
         logger.info(f"Successfully updated user: {name}")
     except Exception as e:
@@ -102,10 +102,10 @@ if __name__ == "__main__":
     initialize_database()
 
     # Test inserting a user
-    insert_user("Aditya", 21, "Hebbal")
+    # insert_user("Aditya", 21, "Hebbal")
 
     # Test updating a user
-    # update_user("Venkat Dheeraj", {"age": 24, "address": "HSR Layout"})
+    # update_user("Jane Smith", {"age": 24, "address": "HSR Layout"})
 
     # Test deleting a user
     # delete_user("Venkat Dheeraj")
@@ -118,7 +118,6 @@ if __name__ == "__main__":
 
     # Test handling transaction
     handle_transaction()
-
 
 
 

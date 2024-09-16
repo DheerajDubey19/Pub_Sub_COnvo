@@ -4,7 +4,7 @@ import logging
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from dagster import op, job, repository, Out, Output
-from database.tursodb import insert_user, get_connection, delete_user
+from database.tursodb import insert_user, get_connection, delete_user, update_user
 import modal
 
 # Configure logging
@@ -27,7 +27,7 @@ def process_batch(batch):
 @op
 def add_users_to_db(_):
     users = [
-        {"name": "Harsh", "age": 27, "address": "Gurgaon"},
+        {"name": "Himanchal", "age": 20, "address": "Raipur"},
     ]
     for user in users:
         try:
@@ -37,10 +37,22 @@ def add_users_to_db(_):
             logging.error(f"Error adding user {user['name']}: {e}")
 
 @op
+def update_user_in_db(_):
+    # Define the user to update and the new data
+    name = "Jane Smith"
+    updated_data = {"age": 50, "address": "BTM Layout"}
+
+    try:
+        update_user(name, updated_data)
+        logging.info(f"User {name} updated successfully.")
+    except Exception as e:
+        logging.error(f"Error updating user {name}: {e}")
+
+@op
 def delete_user_from_db(_):
     try:
-        delete_user("Amyth")
-        logging.info("User Harsh deleted successfully.")
+        delete_user("Aditya")
+        logging.info("User Aditya deleted successfully.")
     except Exception as e:
         logging.error(f"Error deleting user Harsh: {e}")
 
@@ -78,8 +90,9 @@ def process_batches(batched_results):
 
 @job
 def final_pipeline():
-    add_users_to_db()
-    # delete_user_from_db()
+    # add_users_to_db()
+    # update_user_in_db()
+    delete_user_from_db()
     batched_results = query_users_from_db()
     process_batches(batched_results)
 
